@@ -37,10 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTurnstileStatus('Verification expired. Complete the challenge again.');
         setDropZoneEnabled(false);
     };
-    window.voidacityTurnstileError = () => {
+    window.voidacityTurnstileError = errorCode => {
         window.clearTimeout(widgetVisibilityTimeout);
         turnstileToken = '';
-        setTurnstileStatus('Security verification could not be completed. Retry to load it again.');
+        const code = typeof errorCode === 'string' ? ` (${errorCode})` : '';
+        const detail = typeof errorCode === 'string' && errorCode.startsWith('300')
+            ? 'Cloudflare could not complete the challenge. Check browser extensions or privacy protection, then retry in a private window or another browser.'
+            : 'Security verification could not be completed. Check your connection and browser extensions, then retry.';
+        setTurnstileStatus(`${detail}${code}`);
         setDropZoneEnabled(false);
         turnstileRetry.hidden = false;
     };
@@ -88,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 callback: window.voidacityTurnstileSuccess,
                 'expired-callback': window.voidacityTurnstileExpired,
                 'error-callback': window.voidacityTurnstileError,
+                'timeout-callback': window.voidacityTurnstileExpired,
                 'unsupported-callback': window.voidacityTurnstileError
             });
             if (turnstileWidgetId === undefined || turnstileWidgetId === null) {
