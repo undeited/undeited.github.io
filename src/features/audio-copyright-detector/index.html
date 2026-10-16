@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <title>Audio Copyright Detector</title>
+</head>
+<body style="background: transparent; padding: 0; margin: 0;">
+<div class="tool-card" style="margin: 0; height: 100%;">
+    <h3 class="tool-card-title">Audio Copyright Detector</h3>
+    <p class="tool-card-description">
+        Scans the uploaded audio file for copyright
+    </p>
+
+    <div class="analyzer-interface">
+        <div class="drop-zone" id="copyright-drop-zone">
+            <p>Drag & drop your audio track or browse</p>
+            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff" style="display: none;">
+        </div>
+
+        <div class="analysis-progress" id="copyright-progress-container" style="display: none;">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="copyright-progress-bar"></div>
+            </div>
+            <span id="copyright-progress-status" class="progress-status-text">Generating audio fingerprint...</span>
+        </div>
+
+        <div class="analysis-results" id="copyright-results-container" style="display: none;">
+            <div class="result-metric">
+                <span class="metric-label">Status</span>
+                <span class="metric-value" id="copyright-status-val">--</span>
+            </div>
+            <div class="result-metric">
+                <span class="metric-label">Match Found</span>
+                <span class="metric-value" id="copyright-match-val">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="song-popup-modal" class="popup-modal" style="display: none;">
+    <div class="popup-content">
+        <span id="close-popup-btn" class="close-btn">&times;</span>
+        <h4 class="popup-title">Copyright Detected</h4>
+        <img id="popup-song-thumbnail" class="popup-thumbnail" src="" alt="Song Artwork">
+        <div class="popup-details">
+            <div id="popup-song-title" class="popup-song-title"></div>
+            <div id="popup-song-artist" class="popup-song-artist"></div>
+        </div>
+    </div>
+</div>
+
+<script src="analyze.js"></script>
+<script src="detect.js"></script>
+<script src="services/shazam.js"></script>
+<script src="services/songfinder.js"></script>
+</body>
+</html>

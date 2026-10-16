@@ -1,0 +1,278 @@
+body.theme-christmas {
+  background-color: #050f09;
+}
+
+body.theme-christmas .nav-bar,
+body.theme-christmas .footer {
+  background-color: #0a1c11;
+  border-color: #123821;
+}
+
+body.theme-christmas .nav-name {
+  background: linear-gradient(135deg, #ff2424, #a3f7bf, #ff2424);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body.theme-christmas .hero-title,
+body.theme-christmas .error-code {
+  background: linear-gradient(135deg, #ff2424, #ff8585, #ff2424);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body.theme-christmas .hero-subtitle,
+body.theme-christmas .error-msg,
+body.theme-christmas .nav-link,
+body.theme-christmas .version-tag,
+body.theme-christmas .input-group label,
+body.theme-christmas .captcha-subtitle,
+body.theme-christmas .metric-label,
+body.theme-christmas .progress-status-text {
+  color: #71d197;
+}
+
+body.theme-christmas .nav-link:hover,
+body.theme-christmas .error-title,
+body.theme-christmas .version-title-text,
+body.theme-christmas .captcha-title,
+body.theme-christmas .tool-card-title,
+body.theme-christmas .metric-value {
+  color: #ff8585;
+}
+
+body.theme-christmas .tool-card-description,
+body.theme-christmas .drop-zone p,
+body.theme-christmas #copyright-drop-zone p {
+  color: #71d197;
+}
+
+body.theme-christmas .btn-home,
+body.theme-christmas .progress-bar-fill,
+body.theme-christmas .waveform-playhead {
+  background-color: #ff2424;
+  color: #ffffff;
+}
+
+body.theme-christmas .btn-home:hover {
+  background-color: #ff5757;
+}
+
+body.theme-christmas .btn-control {
+  background-color: #123821;
+  color: #ff8585;
+  border-color: #ff2424;
+}
+
+body.theme-christmas .btn-control:hover {
+  background-color: #ff2424;
+  color: #ffffff;
+}
+
+body.theme-christmas .box {
+  background: radial-gradient(circle at center, rgba(255, 36, 36, 0.15) 0%, rgba(5, 15, 9, 0) 70%);
+  background-size: 200% 200%;
+}
+
+body.theme-christmas .captcha-container,
+body.theme-christmas .version-box,
+body.theme-christmas .tool-card {
+  background-color: #0a1c11;
+  border-color: #123821;
+}
+
+body.theme-christmas #captcha-canvas,
+body.theme-christmas #captcha-answer,
+body.theme-christmas .version-item,
+body.theme-christmas .input-group input,
+body.theme-christmas .result-metric,
+body.theme-christmas .waveform-container,
+body.theme-christmas .progress-bar-bg {
+  background-color: #050f09;
+  border-color: #123821;
+}
+
+body.theme-christmas .drop-zone,
+body.theme-christmas #copyright-drop-zone {
+  border-color: #123821;
+  background-color: #050f09;
+}
+
+body.theme-christmas .drop-zone:hover,
+body.theme-christmas .drop-zone.drag-over,
+body.theme-christmas #copyright-drop-zone:hover,
+body.theme-christmas #copyright-drop-zone.drag-over {
+  border-color: #ff2424;
+  background-color: rgba(255, 36, 36, 0.03);
+}
+
+/* Interactive focus variables */
+body.theme-christmas #captcha-answer:focus,
+body.theme-christmas .input-group input:focus {
+  border-color: #ff2424;
+}
+
+body.theme-christmas .version-tag.latest,
+body.theme-christmas .toggle-link {
+  color: #ff2424;
+}
+
+body.theme-christmas .toggle-link:hover {
+  color: #ff5757;
+}
+
+body.theme-christmas .footer,
+body.theme-christmas .hash-display,
+body.theme-christmas .toggle-text {
+  color: #3a8c57;
+}
+
+body.theme-christmas .hash-display {
+  background-color: #0a1c11;
+  border-color: #123821;
+}
+
+body.theme-halloween {
+  background-color: #0f0a05;
+}
+
+body.theme-halloween .nav-bar,
+body.theme-halloween .footer {
+  background-color: #1c120a;
+  border-color: #382112;
+}
+
+body.theme-halloween .nav-name {
+  background: linear-gradient(135deg, #ff7300, #ffb373, #ff7300);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body.theme-halloween .hero-title,
+body.theme-halloween .error-code {
+  background: linear-gradient(135deg, #ff7300, #ffca99, #ff7300);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+body.theme-halloween .hero-subtitle,
+body.theme-halloween .error-msg,
+body.theme-halloween .nav-link,
+body.theme-halloween .version-tag,
+body.theme-halloween .input-group label,
+body.theme-halloween .captcha-subtitle,
+body.theme-halloween .metric-label,
+body.theme-halloween .progress-status-text {
+  color: #d19e71;
+}
+
+body.theme-halloween .nav-link:hover,
+body.theme-halloween .error-title,
+body.theme-halloween .version-title-text,
+body.theme-halloween .captcha-title,
+body.theme-halloween .tool-card-title,
+body.theme-halloween .metric-value {
+  color: #ffb373;
+}
+
+body.theme-halloween .tool-card-description,
+body.theme-halloween .drop-zone p,
+body.theme-halloween #copyright-drop-zone p {
+  color: #d19e71;
+}
+
+body.theme-halloween .btn-home,
+body.theme-halloween .progress-bar-fill,
+body.theme-halloween .waveform-playhead {
+  background-color: #ff7300;
+  color: #ffffff;
+}
+
+body.theme-halloween .btn-home:hover {
+  background-color: #ff9440;
+}
+
+body.theme-halloween .btn-control {
+  background-color: #382112;
+  color: #ffb373;
+  border-color: #ff7300;
+}
+
+body.theme-halloween .btn-control:hover {
+  background-color: #ff7300;
+  color: #ffffff;
+}
+
+body.theme-halloween .box {
+  background: radial-gradient(circle at center, rgba(255, 115, 0, 0.15) 0%, rgba(15, 10, 5, 0) 70%);
+  background-size: 200% 200%;
+}
+
+body.theme-halloween .captcha-container,
+body.theme-halloween .version-box,
+body.theme-halloween .tool-card {
+  background-color: #1c120a;
+  border-color: #382112;
+}
+
+body.theme-halloween #captcha-canvas,
+body.theme-halloween #captcha-answer,
+body.theme-halloween .version-item,
+body.theme-halloween .input-group input,
+body.theme-halloween .result-metric,
+body.theme-halloween .waveform-container,
+body.theme-halloween .progress-bar-bg {
+  background-color: #0f0a05;
+  border-color: #382112;
+}
+
+body.theme-halloween .drop-zone,
+body.theme-halloween #copyright-drop-zone {
+  border-color: #382112;
+  background-color: #0f0a05;
+}
+
+body.theme-halloween .drop-zone:hover,
+body.theme-halloween .drop-zone.drag-over,
+body.theme-halloween #copyright-drop-zone:hover,
+body.theme-halloween #copyright-drop-zone.drag-over {
+  border-color: #ff7300;
+  background-color: rgba(255, 115, 0, 0.03);
+}
+
+body.theme-halloween #captcha-answer:focus,
+body.theme-halloween .input-group input:focus {
+  border-color: #ff7300;
+}
+
+body.theme-halloween .version-tag.latest,
+body.theme-halloween .toggle-link {
+  color: #ff7300;
+}
+
+body.theme-halloween .toggle-link:hover {
+  color: #ff9440;
+}
+
+body.theme-halloween .footer,
+body.theme-halloween .hash-display,
+body.theme-halloween .toggle-text {
+  color: #8c5d3a;
+}
+
+body.theme-halloween .hash-display {
+  background-color: #1c120a;
+  border-color: #382112;
+}

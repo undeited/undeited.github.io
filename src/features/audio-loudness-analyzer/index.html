@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <title>Audio Loudness Analyzer</title>
+</head>
+<body style="background: transparent; padding: 0; margin: 0;">
+<div class="tool-card" style="margin: 0; height: 100%;">
+    <h3 class="tool-card-title">Audio Loudness Analyzer</h3>
+    <p class="tool-card-description">
+        Calculates the loudness for an uploaded audio file
+    </p>
+    <div class="analyzer-interface">
+        <div class="drop-zone" id="drop-zone">
+            <p>Drag & drop your audio track or browse</p>
+            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff" style="display: none;">
+        </div>
+        <div class="analysis-progress" id="progress-container" style="display: none;">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+            <span id="progress-status" class="progress-status-text">Reading audio samples...</span>
+        </div>
+        <div class="analysis-results" id="results-container" style="display: none;">
+            <div class="result-metric">
+                <span class="metric-label">Integrated Loudness</span>
+                <span class="metric-value" id="lufs-val">-- LUFS</span>
+            </div>
+            <div class="result-metric">
+                <span class="metric-label">Peak Amplitude</span>
+                <span class="metric-value" id="dbfs-val">-- dBFS</span>
+            </div>
+        </div>
+        <div id="player-container" style="display: none;">
+            <div class="waveform-container" id="waveform-container">
+                <canvas class="waveform-canvas" id="waveform-canvas"></canvas>
+                <div class="waveform-playhead" id="waveform-playhead"></div>
+            </div>
+            <div class="player-time" id="player-time" style="text-align: center; margin-bottom: 8px; font-family: monospace;">
+                00:00 / 00:00
+            </div>
+            <div class="player-controls">
+                <button class="btn-control" id="btn-back" aria-label="Backward 10 seconds">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="16" height="16" fill="currentColor">
+                        <path d="M236.3 107.1C247.9 96 265 92.9 279.7 99.2C294.4 105.5 304 120 304 136L304 272.3L476.3 107.2C487.9 96 505 92.9 519.7 99.2C534.4 105.5 544 120 544 136L544 504C544 520 534.4 534.5 519.7 540.8C505 547.1 487.9 544 476.3 532.9L304 367.7L304 504C304 520 294.4 534.5 279.7 540.8C265 547.1 247.9 544 236.3 532.9L44.3 348.9C36.5 341.3 32 330.9 32 320C32 309.1 36.5 298.7 44.3 291.1L236.3 107.1z">
+                    </svg>
+                </button>
+                <button class="btn-control" id="btn-play" aria-label="Play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="16" height="16" fill="currentColor">
+                        <path d="M187.2 100.9C174.8 94.1 159.8 94.4 147.6 101.6C135.4 108.8 128 121.9 128 136L128 504C128 518.1 135.5 531.2 147.6 538.4C159.7 545.6 174.8 545.9 187.2 539.1L523.2 355.1C536 348.1 544 334.6 544 320C544 305.4 536 291.9 523.2 284.9L187.2 100.9z">
+                    </svg>
+                </button>
+                <button class="btn-control" id="btn-skip" aria-label="Forward 10 seconds">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="16" height="16" fill="currentColor">
+                        <path d="M403.7 107.1C392.1 96 375 92.9 360.3 99.2C345.6 105.5 336 120 336 136L336 272.3L163.7 107.2C152.1 96 135 92.9 120.3 99.2C105.6 105.5 96 120 96 136L96 504C96 520 105.6 534.5 120.3 540.8C135 547.1 152.1 544 163.7 532.9L336 367.7L336 504C336 520 345.6 534.5 360.3 540.8C375 547.1 392.1 544 403.7 532.9L595.7 348.9C603.6 341.4 608 330.9 608 320C608 309.1 603.5 298.7 595.7 291.1L403.7 107.1z">
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="analyze.js"></script>
+<script src="../../shared/components/waveform.js"></script>
+<script src="../../shared/components/audio-player.js"></script>
+</body>
+</html>

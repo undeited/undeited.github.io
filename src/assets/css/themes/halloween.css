@@ -1,0 +1,116 @@
+body.theme-halloween {
+  background-color: #0f0905;
+}
+body.theme-halloween .nav-bar,
+body.theme-halloween .footer {
+  background-color: #1c110a;
+  border-color: #382112;
+}
+body.theme-halloween .nav-name {
+  background: linear-gradient(135deg, #ff6600, #ffaa66, #ff6600);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shiftGradient 6s linear infinite;
+}
+body.theme-halloween .hero-title,
+body.theme-halloween .error-code {
+  background: linear-gradient(135deg, #ff6600, #ffaa66, #ff6600);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shiftGradient 6s linear infinite;
+}
+body.theme-halloween .hero-subtitle,
+body.theme-halloween .error-msg,
+body.theme-halloween .nav-link,
+body.theme-halloween .version-tag,
+body.theme-halloween .input-group label,
+body.theme-halloween .captcha-subtitle,
+body.theme-halloween .tool-card-description,
+body.theme-halloween .drop-zone p,
+body.theme-halloween #copyright-drop-zone p,
+body.theme-halloween .player-time {
+  color: #d19771;
+}
+body.theme-halloween .nav-link:hover,
+body.theme-halloween .error-title,
+body.theme-halloween .version-title-text,
+body.theme-halloween .captcha-title,
+body.theme-halloween .tool-card-title,
+body.theme-halloween .metric-value {
+  color: #ffaa66;
+}
+body.theme-halloween .btn-home {
+  background-color: #ff6600;
+  color: #ffffff;
+}
+body.theme-halloween .btn-home:hover {
+  background-color: #ff8533;
+}
+body.theme-halloween .box {
+  background: radial-gradient(circle at center, rgba(255, 102, 0, 0.18) 0%, rgba(15, 9, 5, 0) 70%);
+  background-size: 200% 200%;
+  animation: shiftGradient 6s linear infinite;
+}
+body.theme-halloween .captcha-container,
+body.theme-halloween .version-box,
+body.theme-halloween .tool-card {
+  background-color: #1c110a;
+  border-color: #382112;
+}
+body.theme-halloween #captcha-canvas,
+body.theme-halloween #captcha-answer,
+body.theme-halloween .version-item,
+body.theme-halloween .input-group input,
+body.theme-halloween .drop-zone,
+body.theme-halloween #copyright-drop-zone,
+body.theme-halloween .progress-bar-bg,
+body.theme-halloween .result-metric,
+body.theme-halloween .waveform-container {
+  background-color: #0f0905;
+  border-color: #382112;
+}
+body.theme-halloween #captcha-answer:focus,
+body.theme-halloween .input-group input:focus {
+  border-color: #ff6600;
+}
+body.theme-halloween .drop-zone:hover,
+body.theme-halloween .drop-zone.drag-over,
+body.theme-halloween #copyright-drop-zone:hover,
+body.theme-halloween #copyright-drop-zone.drag-over {
+  border-color: #ff6600;
+  background-color: rgba(255, 102, 0, 0.03);
+}
+body.theme-halloween .version-tag.latest,
+body.theme-halloween .toggle-link,
+body.theme-halloween .progress-bar-fill,
+body.theme-halloween .waveform-playhead {
+  background-color: #ff6600;
+  color: #ff6600;
+}
+body.theme-halloween .toggle-link:hover {
+  color: #ff8533;
+}
+body.theme-halloween .footer,
+body.theme-halloween .hash-display,
+body.theme-halloween .toggle-text,
+body.theme-halloween .progress-status-text,
+body.theme-halloween .metric-label {
+  color: #8c5d3a;
+}
+body.theme-halloween .hash-display {
+  background-color: #1c110a;
+  border-color: #382112;
+}
+body.theme-halloween .btn-control {
+  background-color: #382112;
+  color: #ffaa66;
+  border-color: #ff6600;
+}
+body.theme-halloween .btn-control:hover {
+  background-color: #ff6600;
+  color: #ffffff;
+}

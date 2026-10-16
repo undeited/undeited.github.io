@@ -1,0 +1,134 @@
+body.theme-st-patricks {
+  background-color: #031207;
+}
+
+body.theme-st-patricks .nav-bar,
+body.theme-st-patricks .footer {
+  background-color: #07210e;
+  border-color: #0f421c;
+}
+
+body.theme-st-patricks .nav-name {
+  background: linear-gradient(135deg, #00ff44, #0f421c, #00ff44);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-st-patricks .hero-title,
+body.theme-st-patricks .error-code {
+  background: linear-gradient(135deg, #00ff44, #85ffaa, #00ff44);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-st-patricks .hero-subtitle,
+body.theme-st-patricks .error-msg,
+body.theme-st-patricks .nav-link,
+body.theme-st-patricks .version-tag,
+body.theme-st-patricks .input-group label,
+body.theme-st-patricks .captcha-subtitle,
+body.theme-st-patricks .tool-card-description,
+body.theme-st-patricks .drop-zone p,
+body.theme-st-patricks #copyright-drop-zone p,
+body.theme-st-patricks .player-time {
+  color: #6ecd87;
+}
+
+body.theme-st-patricks .nav-link:hover,
+body.theme-st-patricks .error-title,
+body.theme-st-patricks .version-title-text,
+body.theme-st-patricks .captcha-title,
+body.theme-st-patricks .tool-card-title,
+body.theme-st-patricks .metric-value {
+  color: #85ffaa;
+}
+
+body.theme-st-patricks .btn-home {
+  background-color: #00ff44;
+  color: #031207;
+}
+
+body.theme-st-patricks .btn-home:hover {
+  background-color: #33ff69;
+}
+
+body.theme-st-patricks .box {
+  background: radial-gradient(circle at center, rgba(0, 255, 68, 0.18) 0%, rgba(3, 18, 7, 0) 70%);
+  background-size: 200% 200%;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-st-patricks .captcha-container,
+body.theme-st-patricks .version-box,
+body.theme-st-patricks .tool-card {
+  background-color: #07210e;
+  border-color: #0f421c;
+}
+
+body.theme-st-patricks #captcha-canvas,
+body.theme-st-patricks #captcha-answer,
+body.theme-st-patricks .version-item,
+body.theme-st-patricks .input-group input,
+body.theme-st-patricks .drop-zone,
+body.theme-st-patricks #copyright-drop-zone,
+body.theme-st-patricks .progress-bar-bg,
+body.theme-st-patricks .result-metric,
+body.theme-st-patricks .waveform-container {
+  background-color: #031207;
+  border-color: #0f421c;
+}
+
+body.theme-st-patricks #captcha-answer:focus,
+body.theme-st-patricks .input-group input:focus {
+  border-color: #00ff44;
+}
+
+body.theme-st-patricks .drop-zone:hover,
+body.theme-st-patricks .drop-zone.drag-over,
+body.theme-st-patricks #copyright-drop-zone:hover,
+body.theme-st-patricks #copyright-drop-zone.drag-over {
+  border-color: #00ff44;
+  background-color: rgba(0, 255, 68, 0.03);
+}
+
+body.theme-st-patricks .version-tag.latest,
+body.theme-st-patricks .toggle-link,
+body.theme-st-patricks .progress-bar-fill,
+body.theme-st-patricks .waveform-playhead {
+  background-color: #00ff44; /* Applies color to the progress bar and wave playhead */
+  color: #00ff44;
+}
+
+body.theme-st-patricks .toggle-link:hover {
+  color: #33ff69;
+}
+
+body.theme-st-patricks .footer,
+body.theme-st-patricks .hash-display,
+body.theme-st-patricks .toggle-text,
+body.theme-st-patricks .progress-status-text,
+body.theme-st-patricks .metric-label {
+  color: #2b8c3d;
+}
+
+body.theme-st-patricks .hash-display {
+  background-color: #07210e;
+  border-color: #0f421c;
+}
+
+body.theme-st-patricks .btn-control {
+  background-color: #0f421c;
+  color: #85ffaa;
+  border-color: #00ff44;
+}
+
+body.theme-st-patricks .btn-control:hover {
+  background-color: #00ff44;
+  color: #031207;
+}

@@ -1,0 +1,143 @@
+body.theme-thanksgiving {
+  background-color: #120c05;
+}
+
+body.theme-thanksgiving .nav-bar,
+body.theme-thanksgiving .footer {
+  background-color: #21160a;
+  border-color: #422d14;
+}
+
+body.theme-thanksgiving .nav-name {
+  background: linear-gradient(135deg, #d2691e, #f4a460, #d2691e);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-thanksgiving .hero-title,
+body.theme-thanksgiving .error-code {
+  background: linear-gradient(135deg, #d2691e, #f4a460, #d2691e);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-thanksgiving .box {
+  background: radial-gradient(circle at center, rgba(210, 105, 30, 0.18) 0%, rgba(18, 12, 5, 0) 70%);
+  background-size: 200% 200%;
+  animation: shiftGradient 6s linear infinite;
+}
+
+body.theme-thanksgiving .hero-subtitle,
+body.theme-thanksgiving .error-msg,
+body.theme-thanksgiving .nav-link,
+body.theme-thanksgiving .version-tag,
+body.theme-thanksgiving .input-group label,
+body.theme-thanksgiving .captcha-subtitle,
+body.theme-thanksgiving .tool-card-description,
+body.theme-thanksgiving .drop-zone p,
+body.theme-thanksgiving #copyright-drop-zone p,
+body.theme-thanksgiving .player-time {
+  color: #cda275;
+}
+
+body.theme-thanksgiving .nav-link:hover,
+body.theme-thanksgiving .error-title,
+body.theme-thanksgiving .version-title-text,
+body.theme-thanksgiving .captcha-title,
+body.theme-thanksgiving .tool-card-title,
+body.theme-thanksgiving .metric-value {
+  color: #f4a460;
+}
+
+body.theme-thanksgiving .nav-link:hover {
+  color: #f4a460;
+}
+
+body.theme-thanksgiving .btn-home {
+  background-color: #d2691e;
+  color: #ffffff;
+}
+
+body.theme-thanksgiving .btn-home:hover {
+  background-color: #e28743;
+}
+
+body.theme-thanksgiving .captcha-container,
+body.theme-thanksgiving .version-box,
+body.theme-thanksgiving .tool-card {
+  background-color: #21160a;
+  border-color: #422d14;
+}
+
+body.theme-thanksgiving #captcha-canvas,
+body.theme-thanksgiving #captcha-answer,
+body.theme-thanksgiving .version-item,
+body.theme-thanksgiving .input-group input,
+body.theme-thanksgiving .drop-zone,
+body.theme-thanksgiving #copyright-drop-zone,
+body.theme-thanksgiving .progress-bar-bg,
+body.theme-thanksgiving .result-metric,
+body.theme-thanksgiving .waveform-container {
+  background-color: #120c05;
+  border-color: #422d14;
+}
+
+body.theme-thanksgiving #captcha-answer:focus,
+body.theme-thanksgiving .input-group input:focus {
+  outline: none;
+  border-color: #d2691e;
+}
+
+body.theme-thanksgiving .drop-zone:hover,
+body.theme-thanksgiving .drop-zone.drag-over,
+body.theme-thanksgiving #copyright-drop-zone:hover,
+body.theme-thanksgiving #copyright-drop-zone.drag-over {
+  border-color: #d2691e;
+  background-color: rgba(210, 105, 30, 0.03);
+}
+
+body.theme-thanksgiving .progress-bar-fill,
+body.theme-thanksgiving .waveform-playhead {
+  background-color: #d2691e;
+}
+
+body.theme-thanksgiving .btn-control {
+  background-color: #422d14;
+  color: #f4a460;
+  border-color: #d2691e;
+}
+
+body.theme-thanksgiving .btn-control:hover {
+  background-color: #d2691e;
+  color: #ffffff;
+}
+
+body.theme-thanksgiving .version-tag.latest,
+body.theme-thanksgiving .toggle-link {
+  color: #d2691e;
+}
+
+body.theme-thanksgiving .toggle-link:hover {
+  color: #e28743;
+}
+
+body.theme-thanksgiving .footer,
+body.theme-thanksgiving .hash-display,
+body.theme-thanksgiving .toggle-text,
+body.theme-thanksgiving .progress-status-text,
+body.theme-thanksgiving .metric-label {
+  color: #8c683a;
+}
+
+body.theme-thanksgiving .hash-display {
+  background-color: #21160a;
+  border-color: #422d14;
+}
