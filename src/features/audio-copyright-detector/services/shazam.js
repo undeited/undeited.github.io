@@ -1,6 +1,22 @@
 const ShazamService = {
-    isConfigured: false,
-    async detectSong() {
-        throw new Error('Audio recognition requires a secure server-side API proxy.');
+    async detectSong(base64Audio, sessionToken, apiBaseUrl) {
+        if (!base64Audio || !sessionToken || !apiBaseUrl) {
+            throw new Error('Audio recognition is not configured.');
+        }
+        const response = await fetch(`${apiBaseUrl}/api/recognize/shazam`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'text/plain',
+                'x-proxy-session': sessionToken
+            },
+            body: base64Audio
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            const error = new Error(result.error || `Shazam recognition request failed (${response.status}).`);
+            error.status = response.status;
+            throw error;
+        }
+        return result;
     }
 };

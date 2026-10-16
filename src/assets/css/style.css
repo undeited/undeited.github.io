@@ -439,6 +439,16 @@ img {
   opacity: 0.7;
 }
 
+.turnstile-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.turnstile-container[hidden] {
+  display: none;
+}
+
 .drop-zone p, #copyright-drop-zone p {
   color: #a38fcc;
   font-size: 15px;

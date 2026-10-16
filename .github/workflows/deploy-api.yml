@@ -1,0 +1,54 @@
+name: Deploy audio recognition API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - cloudflare/**
+      - wrangler.toml
+      - .github/workflows/deploy-api.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: voidacity-api
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Create or update Worker
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          vars: |
+            TURNSTILE_SITE_KEY
+        env:
+          TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+      - name: Upload secrets and deploy Worker
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          vars: |
+            TURNSTILE_SITE_KEY
+          secrets: |
+            SHAZAM_RAPIDAPI_KEY
+            SONGFINDER_RAPIDAPI_KEY
+            TURNSTILE_SECRET_KEY
+            PROXY_SESSION_SECRET
+        env:
+          TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+          SHAZAM_RAPIDAPI_KEY: ${{ secrets.SHAZAM_RAPIDAPI_KEY }}
+          SONGFINDER_RAPIDAPI_KEY: ${{ secrets.SONGFINDER_RAPIDAPI_KEY }}
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          PROXY_SESSION_SECRET: ${{ secrets.PROXY_SESSION_SECRET }}
