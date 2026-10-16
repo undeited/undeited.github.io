@@ -25,20 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let turnstileLoadPromise = null;
     let initializationInProgress = false;
     let widgetVisibilityTimeout = null;
+    let widgetSlowTimeout = null;
 
     window.voidacityTurnstileSuccess = token => {
         window.clearTimeout(widgetVisibilityTimeout);
+        window.clearTimeout(widgetSlowTimeout);
         turnstileToken = token;
+        turnstileRetry.hidden = true;
         setTurnstileStatus('Verification complete. Choose an audio file to continue.');
         setDropZoneEnabled(true);
     };
     window.voidacityTurnstileExpired = () => {
         turnstileToken = '';
+        turnstileRetry.hidden = true;
         setTurnstileStatus('Verification expired. Complete the challenge again.');
         setDropZoneEnabled(false);
     };
     window.voidacityTurnstileError = errorCode => {
         window.clearTimeout(widgetVisibilityTimeout);
+        window.clearTimeout(widgetSlowTimeout);
         turnstileToken = '';
         const code = typeof errorCode === 'string' ? ` (${errorCode})` : '';
         const detail = typeof errorCode === 'string' && errorCode.startsWith('300')
@@ -55,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initializeRecognition() {
         if (initializationInProgress) return;
         initializationInProgress = true;
+        window.clearTimeout(widgetVisibilityTimeout);
+        window.clearTimeout(widgetSlowTimeout);
         turnstileRetry.hidden = true;
         turnstileToken = '';
         setTurnstileStatus('Loading security verification...');
@@ -99,7 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Security verification could not be initialized.');
             }
             setTurnstileStatus('Complete the security challenge to enable audio recognition.');
-            window.clearTimeout(widgetVisibilityTimeout);
+            widgetSlowTimeout = window.setTimeout(() => {
+                if (!turnstileToken) {
+                    setTurnstileStatus('Security verification is taking longer than usual. Please wait for the challenge to load.');
+                }
+            }, 8000);
             widgetVisibilityTimeout = window.setTimeout(() => {
                 const frame = turnstileWidget.querySelector('iframe');
                 const bounds = frame?.getBoundingClientRect();
@@ -111,14 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     frameStyle.visibility !== 'hidden';
                 if (!turnstileToken && !isVisible) {
                     setTurnstileStatus(
-                        'No visible challenge appeared. Check that the Turnstile key uses Managed or Non-Interactive mode, allows undeited.github.io, and is not blocked by a browser extension.'
+                        'Security verification is still unavailable. Check that the Turnstile key allows undeited.github.io and that browser privacy tools are not blocking it.'
                     );
                     setDropZoneEnabled(false);
                     turnstileRetry.hidden = false;
                 }
-            }, 8000);
+            }, 45000);
         } catch (error) {
             window.clearTimeout(widgetVisibilityTimeout);
+            window.clearTimeout(widgetSlowTimeout);
             setTurnstileStatus(error instanceof Error ? error.message : 'The recognition service is unavailable.');
             turnstileRetry.hidden = false;
         } finally {
@@ -172,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             script.onerror = () => finish(new Error('Security verification could not be loaded.'));
             timeout = window.setTimeout(
                 () => finish(new Error('Security verification took too long to load. Retry to try again.')),
-                15000
+                30000
             );
             document.head.appendChild(script);
         });

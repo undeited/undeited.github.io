@@ -98,11 +98,15 @@ test('Turnstile challenge and retry status are visible before scripts load', asy
     assert.match(widgetOptions, /'unsupported-callback':\s*window\.voidacityTurnstileError/);
     assert.match(widgetOptions, /'timeout-callback':\s*window\.voidacityTurnstileExpired/);
     assert.match(source, /turnstileRetry\.addEventListener\('click', initializeRecognition\)/);
-    assert.match(source, /setTimeout\([\s\S]*?15000/);
+    assert.match(source, /Security verification is taking longer than usual/);
+    assert.match(source, /}, 8000\)/);
+    assert.match(source, /}, 45000\)/);
+    assert.match(source, /Security verification is still unavailable/);
+    assert.match(source, /,\s*30000\s*\)/);
     assert.match(source, /errorCode\.startsWith\('300'\)/);
     assert.match(source, /browser extensions or privacy protection/);
     assert.match(source, /setTurnstileStatus\(`\$\{detail\}\$\{code\}`\)/);
-    assert.match(source, /No visible challenge appeared\.[\s\S]*Managed or Non-Interactive mode/);
+    assert.match(source, /Security verification is still unavailable/);
     assert.match(source, /allows undeited\.github\.io/);
     assert.match(source, /bounds\.width >= 150/);
     assert.match(source, /bounds\.height >= 50/);
