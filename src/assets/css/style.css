@@ -284,6 +284,10 @@ img {
   gap: 15px;
 }
 
+.version-item[hidden] {
+  display: none;
+}
+
 .version-meta {
   display: flex;
   align-items: center;

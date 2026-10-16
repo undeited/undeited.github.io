@@ -42,9 +42,15 @@ test('all local HTML references resolve to files', async () => {
     }
 });
 
-test('desktop download links use the expected downloads folder paths', async () => {
+test('download page lists six Windows versions and hides versions after 1.0.0', async () => {
     const source = await readFile(path.join(root, 'download.html'), 'utf8');
-    assert.match(source, /data-file="exe" data-download="downloads\/voidacity\.exe"/);
+    for (const [index, minor] of ['0', '1', '2', '3', '4', '5'].entries()) {
+        const version = `1.0.${minor}`;
+        const item = source.match(new RegExp(`<div class="version-item"( hidden)?>\\s*<div class="version-meta">\\s*<span class="version-title-text">Version ${version}</span>([\\s\\S]*?)</div>\\s*</div>`, 'i'));
+        assert.ok(item, `version ${version} must be listed`);
+        assert.equal(Boolean(item[1]), index > 0, `version ${version} visibility is incorrect`);
+        assert.match(item[2], new RegExp(`data-file="exe" data-version="${version}" data-download="download/${index === 0 ? 'voidacity.exe' : `${version}/voidacity.exe`}"`));
+    }
     assert.doesNotMatch(source, /macOS|data-file="dmg"|hash-dmg/);
 });
 
