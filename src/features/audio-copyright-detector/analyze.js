@@ -14,26 +14,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupArtist = document.getElementById('popup-song-artist');
     const serviceStatus = document.getElementById('recognition-service-status');
     const dropZoneLabel = document.getElementById('recognition-drop-zone-label');
-    const turnstileContainer = document.getElementById('turnstile-container');
+    const turnstileWidget = document.getElementById('turnstile-widget');
+    const turnstileStatus = document.getElementById('turnstile-status');
+    const turnstileRetry = document.getElementById('turnstile-retry');
     const allowedExtensions = ['.mp3', '.wav', '.flac', '.ogg', '.m4a', '.aac', '.alac', '.aif', '.aiff', '.wma', '.mp4'];
     let apiBaseUrl = '';
     let turnstileToken = '';
     let turnstileWidgetId = null;
+    let turnstileLoadPromise = null;
+    let initializationInProgress = false;
 
     window.voidacityTurnstileSuccess = token => {
         turnstileToken = token;
+        setTurnstileStatus('Verification complete. Choose an audio file to continue.');
+        setDropZoneEnabled(true);
     };
     window.voidacityTurnstileExpired = () => {
         turnstileToken = '';
+        setTurnstileStatus('Verification expired. Complete the challenge again.');
+        setDropZoneEnabled(false);
     };
     window.voidacityTurnstileError = () => {
         turnstileToken = '';
-        setUnavailable('Security verification could not be loaded.');
+        setTurnstileStatus('Security verification could not be completed. Retry to load it again.');
+        setDropZoneEnabled(false);
+        turnstileRetry.hidden = false;
     };
 
     initializeRecognition();
+    turnstileRetry.addEventListener('click', initializeRecognition);
 
     async function initializeRecognition() {
+        if (initializationInProgress) return;
+        initializationInProgress = true;
+        turnstileRetry.hidden = true;
+        turnstileToken = '';
+        setTurnstileStatus('Loading security verification...');
+        setDropZoneEnabled(false);
         try {
             const configuredUrl = window.VOIDACITY_CONFIG && window.VOIDACITY_CONFIG.apiBaseUrl;
             if (!configuredUrl) {
@@ -53,8 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(configuration.error || 'The recognition proxy is not fully configured.');
             }
             await loadTurnstile();
-            turnstileContainer.hidden = false;
-            turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+            if (turnstileWidgetId !== null) {
+                window.turnstile.remove(turnstileWidgetId);
+                turnstileWidgetId = null;
+            }
+            turnstileWidget.replaceChildren();
+            turnstileWidgetId = window.turnstile.render(turnstileWidget, {
                 sitekey: configuration.turnstileSiteKey,
                 action: 'audio_recognition',
                 appearance: 'always',
@@ -62,38 +83,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 size: 'normal',
                 callback: window.voidacityTurnstileSuccess,
                 'expired-callback': window.voidacityTurnstileExpired,
-                'error-callback': window.voidacityTurnstileError
+                'error-callback': window.voidacityTurnstileError,
+                'unsupported-callback': window.voidacityTurnstileError
             });
-            fileInput.disabled = false;
-            dropZone.setAttribute('aria-disabled', 'false');
-            dropZone.classList.remove('drop-zone-disabled');
-            dropZoneLabel.textContent = 'Drag and drop an audio track or browse';
-            serviceStatus.textContent = 'Identify a recording. A recognition match does not determine copyright status.';
+            if (turnstileWidgetId === undefined || turnstileWidgetId === null) {
+                throw new Error('Security verification could not be initialized.');
+            }
+            setTurnstileStatus('Complete the security challenge to enable audio recognition.');
         } catch (error) {
-            setUnavailable(error instanceof Error ? error.message : 'The recognition service is unavailable.');
+            setTurnstileStatus(error instanceof Error ? error.message : 'The recognition service is unavailable.');
+            turnstileRetry.hidden = false;
+        } finally {
+            initializationInProgress = false;
         }
     }
 
-    function setUnavailable(message) {
-        if (fileInput) fileInput.disabled = true;
-        if (dropZone) {
-            dropZone.setAttribute('aria-disabled', 'true');
-            dropZone.classList.add('drop-zone-disabled');
+    function setTurnstileStatus(message) {
+        if (turnstileStatus) turnstileStatus.textContent = message;
+        if (serviceStatus) {
+            serviceStatus.textContent = 'Identify a recording. A recognition match does not determine copyright status.';
         }
-        if (dropZoneLabel) dropZoneLabel.textContent = message;
-        if (serviceStatus) serviceStatus.textContent = message;
+    }
+
+    function setDropZoneEnabled(enabled) {
+        if (fileInput) fileInput.disabled = !enabled;
+        if (dropZone) {
+            dropZone.setAttribute('aria-disabled', String(!enabled));
+            dropZone.classList.toggle('drop-zone-disabled', !enabled);
+        }
+        if (dropZoneLabel) {
+            dropZoneLabel.textContent = enabled
+                ? 'Drag and drop an audio track or browse'
+                : 'Complete security verification before selecting audio';
+        }
     }
 
     function loadTurnstile() {
         if (window.turnstile) return Promise.resolve();
-        return new Promise((resolve, reject) => {
+        if (turnstileLoadPromise) return turnstileLoadPromise;
+        turnstileLoadPromise = new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
             script.async = true;
-            script.onload = () => window.turnstile ? resolve() : reject(new Error('Security verification is unavailable.'));
-            script.onerror = () => reject(new Error('Security verification could not be loaded.'));
+            let timeout;
+            const finish = error => {
+                window.clearTimeout(timeout);
+                script.onload = null;
+                script.onerror = null;
+                if (error) {
+                    script.remove();
+                    turnstileLoadPromise = null;
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            };
+            script.onload = () => window.turnstile
+                ? finish()
+                : finish(new Error('Security verification is unavailable.'));
+            script.onerror = () => finish(new Error('Security verification could not be loaded.'));
+            timeout = window.setTimeout(
+                () => finish(new Error('Security verification took too long to load. Retry to try again.')),
+                15000
+            );
             document.head.appendChild(script);
         });
+        return turnstileLoadPromise;
     }
 
     function isValidAudioFile(file) {

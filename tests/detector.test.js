@@ -71,18 +71,27 @@ test('Shazam audio sample is encoded as a valid WAV file', async () => {
     assert.equal(wav.length, 44 + 44100 * 4 * 2);
 });
 
-test('Turnstile container is visible before the widget is rendered', async () => {
+test('Turnstile challenge and retry status are visible before scripts load', async () => {
+    const html = await readFile(
+        path.join(root, 'src/features/audio-copyright-detector/index.html'),
+        'utf8'
+    );
+    const style = await readFile(path.join(root, 'src/assets/css/style.css'), 'utf8');
     const source = await readFile(
         path.join(root, 'src/features/audio-copyright-detector/analyze.js'),
         'utf8'
     );
-    const revealIndex = source.indexOf('turnstileContainer.hidden = false;');
-    const renderIndex = source.indexOf('window.turnstile.render(turnstileContainer,');
+    const renderIndex = source.indexOf('window.turnstile.render(turnstileWidget,');
     const widgetOptions = source.slice(renderIndex, source.indexOf('});', renderIndex));
 
-    assert.notEqual(revealIndex, -1);
+    assert.match(html, /id="turnstile-container"[^>]*role="group"/);
+    assert.match(html, /id="turnstile-status"[^>]*>Loading security verification/);
+    assert.match(html, /id="turnstile-retry"[^>]*hidden/);
+    assert.match(style, /\.turnstile-container\s*\{[^}]*min-height:\s*112px/s);
     assert.notEqual(renderIndex, -1);
-    assert.ok(revealIndex < renderIndex);
     assert.match(widgetOptions, /appearance:\s*'always'/);
     assert.match(widgetOptions, /execution:\s*'render'/);
+    assert.match(widgetOptions, /'unsupported-callback':\s*window\.voidacityTurnstileError/);
+    assert.match(source, /turnstileRetry\.addEventListener\('click', initializeRecognition\)/);
+    assert.match(source, /setTimeout\([\s\S]*?15000/);
 });
