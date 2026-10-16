@@ -14,14 +14,14 @@
     </p>
 
     <div class="analyzer-interface">
-        <div class="drop-zone drop-zone-disabled" id="copyright-drop-zone" aria-disabled="true">
-            <p id="recognition-drop-zone-label">Checking audio copyright detector service...</p>
-            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff, .wma, .mp4" aria-label="Audio file for recognition" disabled hidden>
-        </div>
         <div id="turnstile-container" class="turnstile-container" role="group" aria-label="Security verification">
             <p id="turnstile-status" role="status">Loading security verification...</p>
             <div id="turnstile-widget"></div>
             <button type="button" id="turnstile-retry" hidden>Retry security verification</button>
+        </div>
+        <div class="drop-zone drop-zone-disabled" id="copyright-drop-zone" aria-disabled="true">
+            <p id="recognition-drop-zone-label">Checking audio copyright detector service...</p>
+            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff, .wma, .mp4" aria-label="Audio file for recognition" disabled hidden>
         </div>
 
         <div class="analysis-progress" id="copyright-progress-container" style="display: none;">

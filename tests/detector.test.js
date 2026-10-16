@@ -83,15 +83,21 @@ test('Turnstile challenge and retry status are visible before scripts load', asy
     );
     const renderIndex = source.indexOf('window.turnstile.render(turnstileWidget,');
     const widgetOptions = source.slice(renderIndex, source.indexOf('});', renderIndex));
+    const verificationIndex = html.indexOf('id="turnstile-container"');
+    const dropZoneIndex = html.indexOf('id="copyright-drop-zone"');
 
     assert.match(html, /id="turnstile-container"[^>]*role="group"/);
     assert.match(html, /id="turnstile-status"[^>]*>Loading security verification/);
     assert.match(html, /id="turnstile-retry"[^>]*hidden/);
-    assert.match(style, /\.turnstile-container\s*\{[^}]*min-height:\s*112px/s);
+    assert.match(style, /\.turnstile-container\s*\{[^}]*min-height:\s*144px/s);
+    assert.match(style, /#turnstile-widget\s*\{[^}]*min-width:\s*300px[^}]*min-height:\s*65px/s);
+    assert.ok(verificationIndex < dropZoneIndex);
     assert.notEqual(renderIndex, -1);
     assert.match(widgetOptions, /appearance:\s*'always'/);
     assert.match(widgetOptions, /execution:\s*'render'/);
     assert.match(widgetOptions, /'unsupported-callback':\s*window\.voidacityTurnstileError/);
     assert.match(source, /turnstileRetry\.addEventListener\('click', initializeRecognition\)/);
     assert.match(source, /setTimeout\([\s\S]*?15000/);
+    assert.match(source, /if \(!turnstileToken\) \{[\s\S]*turnstileContainer\.scrollIntoView/);
+    assert.match(source, /dropZone\.addEventListener\('drop', event => \{[\s\S]*if \(!turnstileToken\)/);
 });

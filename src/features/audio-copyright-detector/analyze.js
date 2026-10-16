@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupArtist = document.getElementById('popup-song-artist');
     const serviceStatus = document.getElementById('recognition-service-status');
     const dropZoneLabel = document.getElementById('recognition-drop-zone-label');
+    const turnstileContainer = document.getElementById('turnstile-container');
     const turnstileWidget = document.getElementById('turnstile-widget');
     const turnstileStatus = document.getElementById('turnstile-status');
     const turnstileRetry = document.getElementById('turnstile-retry');
@@ -174,6 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.addEventListener('drop', event => {
             event.preventDefault();
             dropZone.classList.remove('active');
+            if (!turnstileToken) {
+                setTurnstileStatus('Complete the security challenge above before selecting audio.');
+                turnstileContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
             const file = event.dataTransfer.files[0];
             if (!file) return;
             if (isValidAudioFile(file)) {
@@ -201,8 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
             displayResults(null, new Error('Audio files must be smaller than 15 MiB.'));
             return;
         }
-        if (!apiBaseUrl || !turnstileToken) {
-            displayResults(null, new Error('Complete the security verification before selecting audio.'));
+        if (!apiBaseUrl) {
+            displayResults(null, new Error('The recognition service is unavailable.'));
+            return;
+        }
+        if (!turnstileToken) {
+            setTurnstileStatus('Complete the security challenge above before selecting audio.');
+            turnstileContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
         if (progressContainer) progressContainer.style.display = 'block';
@@ -213,6 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const sessionToken = await createRecognitionSession(turnstileToken);
             turnstileToken = '';
+            setDropZoneEnabled(false);
+            setTurnstileStatus('Security challenge used. Complete it again before another recognition.');
             if (turnstileWidgetId !== null) window.turnstile.reset(turnstileWidgetId);
             if (progressStatus) progressStatus.textContent = 'Decoding audio file...';
             const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
@@ -267,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayResults(result, recognitionError);
         } catch (error) {
             turnstileToken = '';
+            setDropZoneEnabled(false);
             if (turnstileWidgetId !== null) window.turnstile.reset(turnstileWidgetId);
             if (audioCtx && audioCtx.state !== 'closed') await audioCtx.close();
             displayResults(null, error);
