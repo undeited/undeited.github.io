@@ -164,10 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let audioBuffer;
             try {
                 audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-            } catch (e) {
+            } catch {
                 await audioCtx.close();
-                if (progressStatus) progressStatus.textContent = 'Error: Unreadable file.';
-                if (progressBar) progressBar.style.backgroundColor = 'red';
+                displayResults(null, new Error('The selected audio file could not be decoded by this browser.'));
                 return;
             }
             const totalDuration = audioBuffer.duration;
@@ -212,8 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             turnstileToken = '';
             if (turnstileWidgetId !== null) window.turnstile.reset(turnstileWidgetId);
             if (audioCtx && audioCtx.state !== 'closed') await audioCtx.close();
-            if (progressStatus) progressStatus.textContent = error.message || 'Error during analysis';
-            if (progressBar) progressBar.style.backgroundColor = 'red';
+            displayResults(null, error);
         }
     }
 
@@ -240,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             matchVal.textContent = isMatch
                 ? `${track.title}${typeof track.subtitle === 'string' && track.subtitle.trim() ? ` by ${track.subtitle}` : ''}`
                 : recognitionError
-                    ? 'Recognition service unavailable'
+                    ? recognitionError.message || 'Recognition service unavailable'
                     : 'No match found. This is not a copyright clearance.';
             matchVal.style.color = isMatch ? '#d6c7f5' : recognitionError ? '#ffb347' : '#2ecc71';
         }
