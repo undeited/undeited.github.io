@@ -442,6 +442,7 @@ img {
 .turnstile-container {
   display: flex;
   justify-content: center;
+  min-height: 65px;
   margin-top: 16px;
 }
 

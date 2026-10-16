@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
             turnstileWidgetId = window.turnstile.render(turnstileContainer, {
                 sitekey: configuration.turnstileSiteKey,
                 action: 'audio_recognition',
+                appearance: 'always',
+                execution: 'render',
+                size: 'normal',
                 callback: window.voidacityTurnstileSuccess,
                 'expired-callback': window.voidacityTurnstileExpired,
                 'error-callback': window.voidacityTurnstileError

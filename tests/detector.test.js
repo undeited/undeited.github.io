@@ -78,8 +78,11 @@ test('Turnstile container is visible before the widget is rendered', async () =>
     );
     const revealIndex = source.indexOf('turnstileContainer.hidden = false;');
     const renderIndex = source.indexOf('window.turnstile.render(turnstileContainer,');
+    const widgetOptions = source.slice(renderIndex, source.indexOf('});', renderIndex));
 
     assert.notEqual(revealIndex, -1);
     assert.notEqual(renderIndex, -1);
     assert.ok(revealIndex < renderIndex);
+    assert.match(widgetOptions, /appearance:\s*'always'/);
+    assert.match(widgetOptions, /execution:\s*'render'/);
 });
