@@ -178,7 +178,7 @@ body {
   background-color: #2d1d47;
 }
 
-.btn-home.btn-secondary:hover:not(:disabled) {
+.btn-home.btn-secondary:hover:not(:disabled):not([aria-disabled="true"]) {
   background-color: #4b326e;
 }
 
@@ -190,6 +190,20 @@ body {
 .btn-home:disabled:hover {
   background-color: #a85cf0;
   transform: none;
+}
+
+.btn-home[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-home[aria-disabled="true"]:hover {
+  background-color: #a85cf0;
+  transform: none;
+}
+
+.btn-home.btn-secondary[aria-disabled="true"]:hover {
+  background-color: #2d1d47;
 }
 
 .win-icon, .mac-icon {

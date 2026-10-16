@@ -42,6 +42,12 @@ test('all local HTML references resolve to files', async () => {
     }
 });
 
+test('desktop download links use the expected downloads folder paths', async () => {
+    const source = await readFile(path.join(root, 'download.html'), 'utf8');
+    assert.match(source, /data-file="exe" data-download="downloads\/voidacity\.exe"/);
+    assert.match(source, /data-file="dmg" data-download="downloads\/voidacity"/);
+});
+
 test('browser and Worker scripts pass Node.js syntax checks', async () => {
     const scripts = [];
     const directories = ['cloudflare', 'public', 'src'];
