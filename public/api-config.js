@@ -1,3 +1,3 @@
 window.VOIDACITY_CONFIG = Object.freeze({
-    apiBaseUrl: ''
+    apiBaseUrl: 'https://voidacity-api.bj6503735.workers.dev'
 });
