@@ -70,3 +70,16 @@ test('Shazam audio sample is encoded as a valid WAV file', async () => {
     assert.equal(wav.readUInt32LE(40), 44100 * 4 * 2);
     assert.equal(wav.length, 44 + 44100 * 4 * 2);
 });
+
+test('Turnstile container is visible before the widget is rendered', async () => {
+    const source = await readFile(
+        path.join(root, 'src/features/audio-copyright-detector/analyze.js'),
+        'utf8'
+    );
+    const revealIndex = source.indexOf('turnstileContainer.hidden = false;');
+    const renderIndex = source.indexOf('window.turnstile.render(turnstileContainer,');
+
+    assert.notEqual(revealIndex, -1);
+    assert.notEqual(renderIndex, -1);
+    assert.ok(revealIndex < renderIndex);
+});

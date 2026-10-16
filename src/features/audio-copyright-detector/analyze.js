@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(configuration.error || 'The recognition proxy is not fully configured.');
             }
             await loadTurnstile();
+            turnstileContainer.hidden = false;
             turnstileWidgetId = window.turnstile.render(turnstileContainer, {
                 sitekey: configuration.turnstileSiteKey,
                 action: 'audio_recognition',
@@ -60,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'expired-callback': window.voidacityTurnstileExpired,
                 'error-callback': window.voidacityTurnstileError
             });
-            turnstileContainer.hidden = false;
             fileInput.disabled = false;
             dropZone.setAttribute('aria-disabled', 'false');
             dropZone.classList.remove('drop-zone-disabled');
