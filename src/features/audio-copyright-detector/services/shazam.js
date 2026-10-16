@@ -1,7 +1,7 @@
 const ShazamService = {
     async detectSong(base64Audio, sessionToken, apiBaseUrl) {
         if (!base64Audio || !sessionToken || !apiBaseUrl) {
-            throw new Error('Audio recognition is not configured.');
+            throw new Error('Audio copyright detector is not configured.');
         }
         const response = await fetch(`${apiBaseUrl}/api/recognize/shazam`, {
             method: 'POST',

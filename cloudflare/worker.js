@@ -151,20 +151,20 @@ async function allowRequest(ip, env) {
 
 async function proxyJson(response) {
     if (!response.ok) {
-        return jsonResponse({ error: 'The audio recognition provider rejected the request.' }, 502);
+        return jsonResponse({ error: 'The audio copyright detector provider rejected the request.' }, 502);
     }
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.toLowerCase().includes('application/json')) {
-        return jsonResponse({ error: 'The audio recognition provider returned an invalid response.' }, 502);
+        return jsonResponse({ error: 'The audio copyright detector provider returned an invalid response.' }, 502);
     }
     const body = await readBoundedBody(response, 1024 * 1024);
     if (!body) {
-        return jsonResponse({ error: 'The audio recognition provider response was too large.' }, 502);
+        return jsonResponse({ error: 'The audio copyright detector provider response was too large.' }, 502);
     }
     try {
         return jsonResponse(JSON.parse(new TextDecoder().decode(body)), 200);
     } catch {
-        return jsonResponse({ error: 'The audio recognition provider returned an invalid response.' }, 502);
+        return jsonResponse({ error: 'The audio copyright detector provider returned an invalid response.' }, 502);
     }
 }
 

@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <title>Audio Recognition</title>
+    <title>Audio Copyright Detector</title>
 </head>
 <body style="background: transparent; padding: 0; margin: 0;">
 <div class="tool-card" style="margin: 0; height: 100%;">
-    <h3 class="tool-card-title">Audio Recognition</h3>
+    <h3 class="tool-card-title">Audio Copyright Detector</h3>
     <p class="tool-card-description" id="recognition-service-status" role="status">
         Recording recognition is unavailable because a secure server-side API proxy has not been configured. A recording match would not determine copyright status.
     </p>
 
     <div class="analyzer-interface">
         <div class="drop-zone drop-zone-disabled" id="copyright-drop-zone" aria-disabled="true">
-            <p id="recognition-drop-zone-label">Checking audio recognition service...</p>
+            <p id="recognition-drop-zone-label">Checking audio copyright detector service...</p>
             <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff, .wma, .mp4" aria-label="Audio file for recognition" disabled hidden>
         </div>
         <div id="turnstile-container" class="turnstile-container" hidden></div>

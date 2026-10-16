@@ -1,7 +1,7 @@
 const SongFinderService = {
     async detectSong(file, startTime, sessionToken, apiBaseUrl) {
         if (!file || !sessionToken || !apiBaseUrl) {
-            throw new Error('Audio recognition is not configured.');
+            throw new Error('Audio copyright detector is not configured.');
         }
         const formData = new FormData();
         formData.append('file', file);

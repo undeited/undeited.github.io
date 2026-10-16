@@ -703,3 +703,16 @@ img {
 .box .btn-home {
   width: auto;
 }
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+@media (max-width: 400px) {
+  .error-actions {
+    flex-direction: column;
+  }
+}

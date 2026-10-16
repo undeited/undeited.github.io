@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const result = await response.json();
         if (!response.ok || !result.sessionToken) {
-            throw new Error(result.error || 'Could not authorize audio recognition.');
+            throw new Error(result.error || 'Could not authorize audio copyright detector.');
         }
         return result.sessionToken;
     }
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `${track.title}${typeof track.subtitle === 'string' && track.subtitle.trim() ? ` by ${track.subtitle}` : ''}`
                 : recognitionError
                     ? 'Recognition service unavailable'
-                    : 'No Match Found';
+                    : 'No match found. This is not a copyright clearance.';
             matchVal.style.color = isMatch ? '#d6c7f5' : recognitionError ? '#ffb347' : '#2ecc71';
         }
         if (isMatch) {

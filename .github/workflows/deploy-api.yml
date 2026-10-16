@@ -1,4 +1,4 @@
-name: Deploy audio recognition API
+name: Deploy Audio Copyright Detector API
 
 on:
   push:
