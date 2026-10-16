@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voidacity</title>
+  <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+  <link rel="apple-touch-icon" href="public/icons/apple-touch-icon.png">
+  <link rel="manifest" href="public/manifest.json">
+  <link rel="stylesheet" href="src/assets/css/style.css">
+</head>
+<body>
+<div class="nav-bar">
+  <a href="index.html" class="logo-link">
+    <h1 class="nav-name">Voidacity</h1>
+  </a>
+  <nav>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="tools.html" class="nav-link">Tools</a>
+    <a href="download.html" class="nav-link">Download</a>
+  </nav>
+</div>
+
+<main class="box tools-layout">
+  <input type="text" id="honeypot" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+  <div class="tools-embed-grid">
+    <iframe src="src/features/audio-loudness-analyzer/index.html" class="tool-embed-frame" title="Audio Loudness Analyzer"></iframe>
+    <iframe src="src/features/audio-copyright-detector/index.html" class="tool-embed-frame" title="Audio Copyright Detector"></iframe>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>&copy; <span id="year"></span> Voidacity. All rights reserved.</p>
+</footer>
+
+<script src="src/core/holiday-themes.js"></script>
+<script src="src/core/security/honeypot.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>

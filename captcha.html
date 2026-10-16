@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voidacity</title>
+  <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+  <link rel="apple-touch-icon" href="public/icons/apple-touch-icon.png">
+  <link rel="manifest" href="public/manifest.json">
+  <link rel="stylesheet" href="src/assets/css/style.css">
+</head>
+<body>
+<div class="nav-bar">
+  <h1 class="nav-name">Voidacity</h1>
+</div>
+
+<main class="box">
+  <h2 class="captcha-title">Security Check</h2>
+  <p class="captcha-subtitle">Prove that you are not a bot.</p>
+
+  <div class="captcha-container">
+    <canvas id="captcha-canvas" width="200" height="70"></canvas>
+    <input type="text" id="captcha-answer" placeholder="Enter CAPTCHA">
+    <button id="btn-verify" class="btn-home">Verify</button>
+  </div>
+
+  <p id="captcha-error" style="color: #ff5555; margin-top: 15px; display: none">
+    Incorrect answer. Try again.
+  </p>
+</main>
+
+<footer class="footer">
+  <p>&copy; <span id="year"></span> Voidacity. All rights reserved.</p>
+</footer>
+
+<script src="./src/core/holiday-themes.js" defer></script>
+<script src="./src/core/security/captcha.js" defer></script>
+<script src="./src/core/security/honeypot.js" defer></script>
+<script src="./src/main.js" type="module"></script>
+</body>
+</html>
