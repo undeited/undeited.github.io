@@ -12,42 +12,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupThumbnail = document.getElementById('popup-song-thumbnail');
     const popupTitle = document.getElementById('popup-song-title');
     const popupArtist = document.getElementById('popup-song-artist');
-    const allowedExtensions = ['.mp3', '.wav', '.flac', '.ogg', '.m4a', '.aac', '.alac', '.aif', '.aiff', '.wma', '.mp4', '.mkv'];
+    const allowedExtensions = ['.mp3', '.wav', '.flac', '.ogg', '.m4a', '.aac', '.alac', '.aif', '.aiff', '.wma', '.mp4'];
 
-    if (dropZone) {
-        dropZone.addEventListener('click', () => { if (fileInput) fileInput.click(); });
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
-        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('active'); });
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('active');
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                const fileName = file.name.toLowerCase();
-                if (file.type.startsWith('audio/') || allowedExtensions.some(ext => fileName.endsWith(ext))) {
-                    handleAudioAnalysis(file);
-                } else {
-                    alert('Unsupported file format.');
-                }
+    function isValidAudioFile(file) {
+        return file.type.startsWith('audio/') ||
+            allowedExtensions.some(extension => file.name.toLowerCase().endsWith(extension));
+    }
+
+    if (dropZone && fileInput && !fileInput.disabled) {
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                fileInput.click();
             }
         });
-    }
-    if (fileInput) {
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) handleAudioAnalysis(file);
+        dropZone.addEventListener('dragover', event => {
+            event.preventDefault();
+            dropZone.classList.add('active');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', event => {
+            event.preventDefault();
+            dropZone.classList.remove('active');
+            const file = event.dataTransfer.files[0];
+            if (!file) return;
+            if (isValidAudioFile(file)) {
+                handleAudioAnalysis(file);
+            } else {
+                alert('Unsupported file format.');
+            }
+        });
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file && isValidAudioFile(file)) {
+                handleAudioAnalysis(file);
+            } else if (file) {
+                alert('Unsupported file format.');
+                fileInput.value = '';
+            }
         });
     }
     if (closePopupBtn) closePopupBtn.addEventListener('click', () => { if (popupModal) popupModal.style.display = 'none'; });
     window.addEventListener('click', (e) => { if (popupModal && e.target === popupModal) popupModal.style.display = 'none'; });
 
     async function handleAudioAnalysis(file) {
+        if (!ShazamService.isConfigured && !SongFinderService.isConfigured) {
+            displayResults(null, new Error('Audio recognition requires a secure server-side API proxy.'));
+            return;
+        }
+
         if (progressContainer) progressContainer.style.display = 'block';
         if (resultsContainer) resultsContainer.style.display = 'none';
         if (progressBar) { progressBar.style.width = '10%'; progressBar.style.backgroundColor = ''; }
         if (progressStatus) progressStatus.textContent = 'Decoding audio file...';
         try {
-            const metadata = await extractAudioMetadata(file);
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const arrayBuffer = await file.arrayBuffer();
             let audioBuffer;
@@ -61,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalDuration = audioBuffer.duration;
             let currentTime = 0;
             let result = null;
+            let recognitionError = null;
             while (currentTime < totalDuration) {
                 const progressPercent = Math.min(10 + Math.floor((currentTime / totalDuration) * 80), 90);
                 if (progressBar) progressBar.style.width = `${progressPercent}%`;
@@ -73,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         result = shazamRes;
                         break;
                     }
-                } catch (e) {
+                } catch (error) {
+                    recognitionError = error;
                 }
 
                 try {
@@ -82,44 +103,39 @@ document.addEventListener('DOMContentLoaded', () => {
                         result = songFinderRes;
                         break;
                     }
-                } catch (e) {
+                } catch (error) {
+                    recognitionError = error;
                 }
 
                 currentTime += 10;
                 if (currentTime < totalDuration) await new Promise(resolve => setTimeout(resolve, 1500));
             }
-            if (!result || !result.track) {
-                if (metadata && (metadata.title || metadata.artist)) {
-                    result = {
-                        track: {
-                            title: metadata.title || 'Unknown Title',
-                            subtitle: metadata.artist || 'Unknown Artist',
-                            images: { coverart: '../../public/icons/default-cover.png' }
-                        }
-                    };
-                }
-            }
             if (progressBar) progressBar.style.width = '100%';
-            displayResults(result);
-        } catch (error) {
+            displayResults(result, recognitionError);
+        } catch {
             if (progressStatus) progressStatus.textContent = 'Error during analysis';
             if (progressBar) progressBar.style.backgroundColor = 'red';
         }
     }
 
-    function displayResults(data) {
+    function displayResults(data, recognitionError = null) {
         if (progressContainer) progressContainer.style.display = 'none';
         if (resultsContainer) resultsContainer.style.display = 'block';
-        const isMatch = data && data.track;
-        if (statusVal) statusVal.textContent = 'Complete';
+        const track = data && data.track;
+        const isMatch = Boolean(track && typeof track.title === 'string' && track.title.trim());
+        if (statusVal) statusVal.textContent = recognitionError && !isMatch ? 'Unavailable' : 'Complete';
         if (matchVal) {
-            matchVal.textContent = isMatch ? `${data.track.title} by ${data.track.subtitle}` : 'No Match Found';
-            matchVal.style.color = isMatch ? '#ff4d4d' : '#2ecc71';
+            matchVal.textContent = isMatch
+                ? `${track.title}${typeof track.subtitle === 'string' && track.subtitle.trim() ? ` by ${track.subtitle}` : ''}`
+                : recognitionError
+                    ? 'Recognition service unavailable'
+                    : 'No Match Found';
+            matchVal.style.color = isMatch ? '#d6c7f5' : recognitionError ? '#ffb347' : '#2ecc71';
         }
         if (isMatch) {
-            if (popupTitle) popupTitle.textContent = data.track.title;
-            if (popupArtist) popupArtist.textContent = data.track.subtitle;
-            if (popupThumbnail) popupThumbnail.src = data.track.images && data.track.images.coverart ? data.track.images.coverart : '../../public/icons/default-cover.png';
+            if (popupTitle) popupTitle.textContent = track.title;
+            if (popupArtist) popupArtist.textContent = typeof track.subtitle === 'string' ? track.subtitle : '';
+            if (popupThumbnail) popupThumbnail.src = track.images && track.images.coverart ? track.images.coverart : '../../../public/icons/default-cover.png';
             if (popupModal) popupModal.style.display = 'flex';
         }
     }

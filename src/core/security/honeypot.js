@@ -4,12 +4,13 @@ if (!window.location.pathname.includes('/captcha.html')) {
     if (honeypot) {
         honeypot.addEventListener('change', () => {
             sessionStorage.setItem('flagged', 'true');
-            window.location.href = '../../../captcha.html';
+            window.location.href = new URL('captcha.html', window.location.href);
         });
     }
     const markHuman = () => {
         activityDetected = true;
     };
+    window.addEventListener('pointerdown', markHuman, { once: true });
     window.addEventListener('mousemove', markHuman, { once: true });
     window.addEventListener('keydown', markHuman, { once: true });
     window.addEventListener('scroll', markHuman, { once: true });
@@ -19,7 +20,7 @@ if (!window.location.pathname.includes('/captcha.html')) {
             if (!activityDetected || sessionStorage.getItem('flagged') === 'true') {
                 sessionStorage.setItem('flagged', 'true');
                 e.preventDefault();
-                window.location.href = '../../../captcha.html';
+                window.location.href = new URL('captcha.html', window.location.href);
             }
         });
     });

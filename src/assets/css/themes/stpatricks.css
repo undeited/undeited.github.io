@@ -101,7 +101,7 @@ body.theme-st-patricks .version-tag.latest,
 body.theme-st-patricks .toggle-link,
 body.theme-st-patricks .progress-bar-fill,
 body.theme-st-patricks .waveform-playhead {
-  background-color: #00ff44; /* Applies color to the progress bar and wave playhead */
+  background-color: #00ff44;
   color: #00ff44;
 }
 

@@ -9,6 +9,7 @@
   let duration = 0;
   let animationFrameId = null;
   let isDragging = false;
+  let loadRequestId = 0;
   
   const audioInput = document.getElementById('audio-input');
   const playerContainer = document.getElementById('player-container');
@@ -39,17 +40,27 @@
 
   audioInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
+    const requestId = ++loadRequestId;
     if (!file) return;
     
-    stop(false); 
+    stop(false);
+    audioBuffer = null;
+    duration = 0;
+    pausedAt = 0;
+    playerContainer.style.display = 'none';
 
     const reader = new FileReader();
-    reader.onload = function(evt) {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      
-      audioContext.decodeAudioData(evt.target.result, function(buffer) {
+    reader.onload = async function(evt) {
+      try {
+        if (requestId !== loadRequestId) return;
+        const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextConstructor) {
+          throw new Error('Web Audio is not supported by this browser.');
+        }
+        if (!audioContext) audioContext = new AudioContextConstructor();
+        const buffer = await audioContext.decodeAudioData(evt.target.result);
+        if (requestId !== loadRequestId) return;
+
         audioBuffer = buffer;
         duration = buffer.duration;
         pausedAt = 0;
@@ -63,7 +74,16 @@
         
         playerContainer.style.display = 'block';
         window.AudioWaveformGenerator.draw(audioBuffer, canvas);
-      });
+      } catch {
+        if (requestId === loadRequestId) {
+          playerTime.textContent = 'Unable to load audio for playback.';
+        }
+      }
+    };
+    reader.onerror = () => {
+      if (requestId === loadRequestId) {
+        playerTime.textContent = 'Unable to read audio file for playback.';
+      }
     };
     reader.readAsArrayBuffer(file);
   });
@@ -176,7 +196,7 @@
     const ratio = pausedAt / duration;
     playhead.style.left = (ratio * container.offsetWidth) + 'px';
     updateTimeDisplay();
-    if (wasPlaying) {
+    if (wasPlaying && pausedAt < duration) {
       play();
     }
   }
@@ -198,7 +218,7 @@
         const wasPlaying = isPlaying;
         stop(false);
         pausedAt = (x / rect.width) * duration;
-        if (wasPlaying) play();
+        if (wasPlaying && pausedAt < duration) play();
       }
     }
   }

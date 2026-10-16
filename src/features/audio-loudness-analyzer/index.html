@@ -13,9 +13,9 @@
         Calculates the loudness for an uploaded audio file
     </p>
     <div class="analyzer-interface">
-        <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Choose or drop an audio file to analyze">
             <p>Drag & drop your audio track or browse</p>
-            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff" style="display: none;">
+            <input type="file" id="audio-input" accept="audio/*, .mp3, .wav, .flac, .ogg, .m4a, .aac, .alac, .aif, .aiff, .wma, .opus, .webm, .mp4" aria-label="Audio file to analyze" hidden>
         </div>
         <div class="analysis-progress" id="progress-container" style="display: none;">
             <div class="progress-bar-bg">

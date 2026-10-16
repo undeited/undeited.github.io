@@ -18,13 +18,14 @@
   <h2 class="captcha-title">Security Check</h2>
   <p class="captcha-subtitle">Prove that you are not a bot.</p>
 
-  <div class="captcha-container">
-    <canvas id="captcha-canvas" width="200" height="70"></canvas>
-    <input type="text" id="captcha-answer" placeholder="Enter CAPTCHA">
-    <button id="btn-verify" class="btn-home">Verify</button>
-  </div>
+  <form class="captcha-container" id="captcha-form">
+    <canvas id="captcha-canvas" width="200" height="70" role="img" aria-label="CAPTCHA challenge"></canvas>
+    <label class="visually-hidden" for="captcha-answer">Enter the characters shown in the CAPTCHA</label>
+    <input type="text" id="captcha-answer" placeholder="Enter CAPTCHA" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="captcha-error" required>
+    <button type="submit" id="btn-verify" class="btn-home">Verify</button>
+  </form>
 
-  <p id="captcha-error" style="color: #ff5555; margin-top: 15px; display: none">
+  <p id="captcha-error" role="alert" style="color: #ff5555; margin-top: 15px; display: none">
     Incorrect answer. Try again.
   </p>
 </main>

@@ -9,8 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const dbfsVal = document.getElementById('dbfs-val');
     const playerContainer = document.getElementById('player-container');
     const waveformCanvas = document.getElementById('waveform-canvas');
+    let analysisRequestId = 0;
 
     dropZone.addEventListener('click', () => audioInput.click());
+    dropZone.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            audioInput.click();
+        }
+    });
 
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -29,10 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    audioInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            processAudioFile(e.target.files[0]);
-        }
+    audioInput.addEventListener('change', () => {
+        const file = audioInput.files[0];
+        audioInput.value = '';
+        if (file) processAudioFile(file);
     });
 
     function isValidAudioFile(file) {
@@ -50,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function processAudioFile(file) {
+        const requestId = ++analysisRequestId;
 
         if (!isValidAudioFile(file)) {
             alert('Please select a valid audio file format.');
@@ -62,26 +70,44 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.style.width = '0%';
         progressStatus.textContent = 'Reading audio file headers...';
 
+        let audioCtx;
         try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextConstructor) {
+                throw new Error('Web Audio is not supported by this browser.');
+            }
+            audioCtx = new AudioContextConstructor();
             const fileBuffer = await file.arrayBuffer();
 
             progressStatus.textContent = 'Decoding audio arrays...';
             progressBar.style.width = '25%';
 
             const audioBuffer = await audioCtx.decodeAudioData(fileBuffer);
+            await audioCtx.close();
+            if (requestId !== analysisRequestId) return;
 
             progressStatus.textContent = 'Running loudness analysis...';
             progressBar.style.width = '50%';
 
             setTimeout(() => {
-                analyzeLoudnessMetrics(audioBuffer);
+                if (requestId !== analysisRequestId) return;
+                try {
+                    analyzeLoudnessMetrics(audioBuffer);
+                } catch {
+                    progressStatus.textContent = 'Unable to analyze this audio file.';
+                    progressBar.style.width = '0%';
+                }
             }, 60);
 
         } catch (error) {
-            progressStatus.textContent = 'Error parsing file format.';
+            if (audioCtx && audioCtx.state !== 'closed') {
+                await audioCtx.close();
+            }
+            if (requestId !== analysisRequestId) return;
+            progressStatus.textContent = error instanceof Error && error.message.includes('not supported')
+                ? error.message
+                : 'Error parsing file format.';
             progressBar.style.width = '0%';
-            console.error(error);
         }
     }
 

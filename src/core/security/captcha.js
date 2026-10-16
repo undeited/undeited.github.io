@@ -1,7 +1,7 @@
 if (window.location.pathname.includes('captcha.html')) {
     let currentCaptcha = "";
     const canvas = document.getElementById('captcha-canvas');
-    const verifyBtn = document.getElementById('btn-verify');
+    const captchaForm = document.getElementById('captcha-form');
     const answerInput = document.getElementById('captcha-answer');
     const errorEl = document.getElementById('captcha-error');
 
@@ -68,10 +68,12 @@ if (window.location.pathname.includes('captcha.html')) {
 
     generateCaptcha();
 
-    if (verifyBtn && answerInput) {
-        verifyBtn.addEventListener('click', () => {
+    if (captchaForm && answerInput) {
+        captchaForm.addEventListener('submit', event => {
+            event.preventDefault();
             const userAnswer = answerInput.value.trim();
             if (userAnswer.toLowerCase() === currentCaptcha.toLowerCase()) {
+                sessionStorage.removeItem('flagged');
                 window.location.href = 'index.html';
             } else {
                 if (errorEl) {
@@ -79,6 +81,7 @@ if (window.location.pathname.includes('captcha.html')) {
                 }
                 answerInput.value = '';
                 generateCaptcha();
+                answerInput.focus();
             }
         });
     }

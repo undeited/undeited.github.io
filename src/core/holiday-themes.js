@@ -5,19 +5,20 @@
     let theme = '';
 
     if (month === 12 && day >= 1 && day <= 25) {
-        theme = 'christmas.css';
+        theme = { file: 'christmas.css', className: 'theme-christmas' };
     } else if (month === 10 && day >= 24 && day <= 31) {
-        theme = 'halloween.css';
+        theme = { file: 'halloween.css', className: 'theme-halloween' };
     } else if (month === 3 && day >= 10 && day <= 17) {
-        theme = 'stpatricks.css';
+        theme = { file: 'stpatricks.css', className: 'theme-st-patricks' };
     } else if (month === 11 && day >= 20 && day <= 30) {
-        theme = 'thanksgiving.css';
+        theme = { file: 'thanksgiving.css', className: 'theme-thanksgiving' };
     }
 
     if (theme) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = `src/assets/css/themes/${theme}`;
+        link.href = `src/assets/css/themes/${theme.file}`;
         document.head.appendChild(link);
+        document.body.classList.add(theme.className);
     }
 })();

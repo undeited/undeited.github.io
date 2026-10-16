@@ -1,7 +1,8 @@
 {
   "name": "Voidacity",
   "short_name": "Voidacity",
-  "start_url": "index.html",
+  "start_url": "../index.html",
+  "scope": "../",
   "display": "standalone",
   "background_color": "#0b0712",
   "theme_color": "#140d21",
@@ -43,7 +44,7 @@
   "shortcuts": [
     {
       "name": "Download",
-      "url": "download.html"
+      "url": "../download.html"
     }
   ]
 }

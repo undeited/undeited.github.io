@@ -4,10 +4,12 @@ window.AudioWaveformGenerator = {
     const ctx = canvas.getContext('2d');
     const width = canvas.offsetWidth;
     const height = canvas.offsetHeight;
+    if (width <= 0 || height <= 0) return;
+    const pixelRatio = window.devicePixelRatio || 1;
     
-    canvas.width = width * window.devicePixelRatio;
-    canvas.height = height * window.devicePixelRatio;
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    canvas.width = width * pixelRatio;
+    canvas.height = height * pixelRatio;
+    ctx.scale(pixelRatio, pixelRatio);
     
     ctx.clearRect(0, 0, width, height);
     
