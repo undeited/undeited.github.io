@@ -206,7 +206,7 @@ body {
   background-color: #2d1d47;
 }
 
-.win-icon, .mac-icon {
+.win-icon {
   width: 1.15em;
   height: 1.15em;
   fill: currentColor;
