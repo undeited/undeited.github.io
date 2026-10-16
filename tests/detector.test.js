@@ -98,6 +98,10 @@ test('Turnstile challenge and retry status are visible before scripts load', asy
     assert.match(widgetOptions, /'unsupported-callback':\s*window\.voidacityTurnstileError/);
     assert.match(source, /turnstileRetry\.addEventListener\('click', initializeRecognition\)/);
     assert.match(source, /setTimeout\([\s\S]*?15000/);
+    assert.match(source, /No visible challenge appeared\.[\s\S]*Managed or Non-Interactive mode/);
+    assert.match(source, /allows undeited\.github\.io/);
+    assert.match(source, /bounds\.width >= 150/);
+    assert.match(source, /bounds\.height >= 50/);
     assert.match(source, /if \(!turnstileToken\) \{[\s\S]*turnstileContainer\.scrollIntoView/);
     assert.match(source, /dropZone\.addEventListener\('drop', event => \{[\s\S]*if \(!turnstileToken\)/);
 });

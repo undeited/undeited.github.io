@@ -24,8 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let turnstileWidgetId = null;
     let turnstileLoadPromise = null;
     let initializationInProgress = false;
+    let widgetVisibilityTimeout = null;
 
     window.voidacityTurnstileSuccess = token => {
+        window.clearTimeout(widgetVisibilityTimeout);
         turnstileToken = token;
         setTurnstileStatus('Verification complete. Choose an audio file to continue.');
         setDropZoneEnabled(true);
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setDropZoneEnabled(false);
     };
     window.voidacityTurnstileError = () => {
+        window.clearTimeout(widgetVisibilityTimeout);
         turnstileToken = '';
         setTurnstileStatus('Security verification could not be completed. Retry to load it again.');
         setDropZoneEnabled(false);
@@ -91,7 +94,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Security verification could not be initialized.');
             }
             setTurnstileStatus('Complete the security challenge to enable audio recognition.');
+            window.clearTimeout(widgetVisibilityTimeout);
+            widgetVisibilityTimeout = window.setTimeout(() => {
+                const frame = turnstileWidget.querySelector('iframe');
+                const bounds = frame?.getBoundingClientRect();
+                const frameStyle = frame && window.getComputedStyle(frame);
+                const isVisible = frame &&
+                    bounds.width >= 150 &&
+                    bounds.height >= 50 &&
+                    frameStyle.display !== 'none' &&
+                    frameStyle.visibility !== 'hidden';
+                if (!turnstileToken && !isVisible) {
+                    setTurnstileStatus(
+                        'No visible challenge appeared. Check that the Turnstile key uses Managed or Non-Interactive mode, allows undeited.github.io, and is not blocked by a browser extension.'
+                    );
+                    setDropZoneEnabled(false);
+                    turnstileRetry.hidden = false;
+                }
+            }, 8000);
         } catch (error) {
+            window.clearTimeout(widgetVisibilityTimeout);
             setTurnstileStatus(error instanceof Error ? error.message : 'The recognition service is unavailable.');
             turnstileRetry.hidden = false;
         } finally {
